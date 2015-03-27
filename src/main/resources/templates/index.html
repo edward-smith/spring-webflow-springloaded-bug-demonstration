@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title>WebFlow Bug Showcase</title>
+        <style type="text/css">
+            body{ margin: auto; max-width: 800px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; color: #333;} 
+            code { padding-left:5px; padding-right:5px; font-size:90%; border-radius:3px; font-family: Menlo,Monaco,Consolas,"Courier New",monospace; background-color: #999; color:white;}
+            code.black { background-color: #333;color: white;}
+            code.red { background-color: #A44;color: white;}
+            code.green { background-color: #4A4;color: white;}
+            code.blue { background-color: #44A;color: white;}</style>
+    </head>
+    <body>
+        <h1>Serializable + Spring Loaded Issues</h1>
+        <h2>Preamble</h2>
+        <p>
+            When running without Spring Loaded as the Java Agent, this Flow will report an exception; it cannot store Objects 
+            in Flow Scope if they do not implement <code>Serializable</code> (appropriately, a <code class="red">java.io.NotSerializableException</code> 
+            will be thrown). This is normal and expected.
+        </p>
+        <p> The setup:
+            <ul>
+                <li>Spring Boot 1.2.2.RELEASE</li>
+                <li>Spring WebFlow 2.4.1.RELEASE (also tested with 2.4.0.RELEASE)</li>
+                <li>Spring Loaded 1.2.1.RELEASE</li>
+            </ul>
+            <code class="black">mvn spring-boot:run</code>
+        </p>
+        <h2>Running with Spring Loaded</h2>
+        <p><code class="black">mvn spring-boot:run -PwithAgent</code></p>
+        <p>
+            When running under Java 7, in <code class="green">o.s.w.e.spel.ScopeSearchingPropertyAccessor.findScopeForAttribute(RequestContext, String)</code>, the 
+            <code class="blue">requestContext.getViewScope().contains(name)</code> invocation triggers a <code class="red">NullPointerException</code>.
+        </p>
+        <p>
+            When running under Java 8, the <code class="blue">NotSerializable</code> object fails serialization, but WebFlow 
+            seems to silently ignore it. Thus on view render the <code class="blue">notSerializable</code> property cannot be 
+            found on the <code class="green">Form</code> instance, since it was not serialized into Flow Scope. An 
+            <code class="red">SpelEvaluationException</code> will occur.
+        </p>
+        <p>
+            <a th:href="@{/bug}">Start the Flow</a>.
+        </p>
+    </body>
+</html>

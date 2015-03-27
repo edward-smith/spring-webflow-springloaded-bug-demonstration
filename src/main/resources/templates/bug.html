@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title>Bug Page</title>
+    </head>
+    <body>
+        <h1>Form Data</h1>
+        <p th:text="|'Property 1:'+${form.notSerializable.property1}|"></p>
+        <p th:text="|'Property 2:'+${form.notSerializable.property2}|"></p>
+        <a th:href="|${flowExecutionUrl}&amp;_eventId=back|">Back</a>
+    </body>
+</html>
