@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.2.RELEASE</version>
+        <version>1.2.5.RELEASE</version>
     </parent>
     
     <dependencies>
@@ -33,7 +33,7 @@
     </dependencies>
     
     <profiles>
-        <profile>
+        <profile>	
             <id>withAgent</id>
                 <build>
                     <plugins>
@@ -44,11 +44,11 @@
                                 <dependency>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>springloaded</artifactId>
-                                    <version>${spring-loaded.version}</version>
+                                    <version>1.2.4.RELEASE</version>
                                 </dependency>
                             </dependencies>
                             <configuration>
-                                <agent>${settings.localRepository}/org/springframework/springloaded/${spring-loaded.version}/springloaded-${spring-loaded.version}.jar</agent>
+                                <agent>${settings.localRepository}/org/springframework/springloaded/1.2.4.RELEASE/springloaded-1.2.4.RELEASE.jar</agent>
                                 <noverify>true</noverify>
                             </configuration>
                         </plugin>
